@@ -12,12 +12,14 @@ class App extends Component {
     this.getVenues();
   }
 
+  //loading the map and passing the callback function to the global
   loadMap = () => {
     const url = 'https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyDo4mqXNW4jwA4PdjxZx2w7qPumf865ATc&callback=initMap';
     loadScript(url);
     window.initMap = this.initMap;
   }
 
+  //getting the locations from foursquare api using axios library
   getVenues = () => {
     const url = 'https://api.foursquare.com/v2/venues/explore?';
     const parameters = {
@@ -39,12 +41,21 @@ class App extends Component {
       zoom: 12
     });
 
+    
+
+    const infowindow = new window.google.maps.InfoWindow();
+
     this.state.venues.map(ele => {
+      const content = `${ele.venue.location.address}`
       const marker = new window.google.maps.Marker({
         position: { lat: ele.venue.location.lat, lng: ele.venue.location.lng },
         map: map,
         title: ele.venue.name
       });
+      marker.addListener('click', function () {
+        infowindow.setContent(content);
+        infowindow.open(map, marker);
+      })
     })
   }
   render() {
@@ -56,6 +67,7 @@ class App extends Component {
   }
 }
 
+//loading the google map api script in the React Dom
 function loadScript(url) {
   const firstScriptTag = document.getElementsByTagName('script')[0];
   const mapScript = document.createElement('script');
