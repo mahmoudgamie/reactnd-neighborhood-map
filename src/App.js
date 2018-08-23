@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios';
+import escapeRegExp from 'escape-string-regexp';
 
 class App extends Component {
 
   state = {
     venues: [],
     query: ''
+  }
+
+  updateQuery = (query) => {
+    this.setState({ query: query.trim() })
   }
 
   componentDidMount() {
@@ -65,6 +70,14 @@ class App extends Component {
   }
 
   render() {
+    const { query, venues } = this.state;
+    let showingLocations;
+    if (query) {
+      const match = new RegExp(escapeRegExp(query), 'i');
+      showingLocations = venues.filter(ele => match.test(ele.venue.name));
+    } else {
+      showingLocations = venues;
+    }
     return (
       <div>
         <div className='side-bar'>
@@ -72,9 +85,14 @@ class App extends Component {
             <a href='#'><i className="far fa-times-circle fa-2x"></i></a>
           </div>
           <div className='side-bar-container'>
-            <input className='filter-location' />
+            <input 
+              className='filter-location' 
+              type='text'
+              placeholder='Search locations'
+              value={query}
+              onChange={(event) => { this.updateQuery(event.target.value) }} />
             <ul className='list-menu'>
-              {this.state.venues.map(ele => (
+              {showingLocations.map(ele => (
                 <li className='list-item'>
                   <a href='a'>{ele.venue.name}</a>
                 </li>
