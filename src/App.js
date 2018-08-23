@@ -5,8 +5,8 @@ import axios from 'axios';
 class App extends Component {
 
   state = {
-    venues: '',
-    test: 'testing'
+    venues: [],
+    query: ''
   }
 
   componentDidMount() {
@@ -60,8 +60,7 @@ class App extends Component {
     })
   }
   openCloseSideBar = () => {
-    let sideBar = document.getElementsByClassName('side-bar')
-    console.log(sideBar);
+    let sideBar = document.getElementsByClassName('side-bar');
     sideBar[0].classList.toggle('open');
   }
 
@@ -70,13 +69,23 @@ class App extends Component {
       <div>
         <div className='side-bar'>
           <div className='close-icon' onClick={this.openCloseSideBar}>
-            <i className="far fa-times-circle fa-2x"></i>
+            <a href='#'><i className="far fa-times-circle fa-2x"></i></a>
+          </div>
+          <div className='side-bar-container'>
+            <input className='filter-location' />
+            <ul className='list-menu'>
+              {this.state.venues.map(ele => (
+                <li className='list-item'>
+                  <a href='a'>{ele.venue.name}</a>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
         <header className='header'>
 
           <div className='icon' onClick={this.openCloseSideBar}>
-            <i className="fas fa-bars fa-2x"></i>
+            <a href='#'><i className="fas fa-bars fa-2x"></i></a>
           </div>
           <div className='title'>
             <h1>Cairo</h1>
