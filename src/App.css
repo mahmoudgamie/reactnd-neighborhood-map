@@ -1,5 +1,5 @@
 
-html, body {
+html, body, main  {
   height: 100%;
 }
 
@@ -13,24 +13,46 @@ header {
   background: #1c262f;
   color: #fff;
   height: 70px;
-  line-height: 2;
 }
 
 .title {
   width: 100%;
 }
 
-.icon, header {
-  line-height: 2
-}
 
 .icon {
-
   padding-left: 10px;
   color: #02b3e4;
   cursor: pointer;
 }
 
+.icon i, .title {
+  line-height: 2;
+}
+
+.side-bar {
+  width: 300px;
+  background-color: #58646d;
+  position: absolute;
+  color: black;
+  height: 100vw;
+  z-index: 9999;
+  transform: translate(-300px, 0);
+  transition: transform 0.3s ease;
+}
+
+.side-bar.open {
+  transform: translate(0, 0);
+}
+
+.close-icon {
+  position: absolute;
+  top: 10px;
+  left: 250px;
+  cursor: pointer;
+}
+
 #map {
+  width: 100vw;
   height: 100vw;
 }
