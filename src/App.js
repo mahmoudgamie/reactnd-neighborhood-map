@@ -41,7 +41,7 @@ class App extends Component {
       zoom: 12
     });
 
-    
+
 
     const infowindow = new window.google.maps.InfoWindow();
 
@@ -60,9 +60,17 @@ class App extends Component {
   }
   render() {
     return (
-      <main>
-        <div id='map'></div>
-      </main>
+      <div>
+        <header>
+          <i className="icon fas fa-bars fa-2x"></i>
+          <div className='title'>
+            <h1>Cairo</h1>
+          </div>
+        </header>
+        <main>
+          <div id='map'></div>
+        </main>
+      </div>
     );
   }
 }

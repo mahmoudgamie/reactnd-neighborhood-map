@@ -1,8 +1,34 @@
 
 html, body {
   height: 100%;
-  margin: 0;
-  padding: 0;
+}
+
+h1 {
+  text-align: center;
+  margin: 0px;
+}
+
+header {
+  display: flex;
+  background: #1c262f;
+  color: #fff;
+  height: 70px;
+  line-height: 2;
+}
+
+.title {
+  width: 100%;
+}
+
+.icon, header {
+  line-height: 2
+}
+
+.icon {
+
+  padding-left: 10px;
+  color: #02b3e4;
+  cursor: pointer;
 }
 
 #map {
