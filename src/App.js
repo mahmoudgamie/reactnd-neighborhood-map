@@ -7,7 +7,9 @@ class App extends Component {
 
   state = {
     venues: [],
-    query: ''
+    query: '',
+    markers: [],
+    map: {}
   }
 
   componentDidMount() {
@@ -41,28 +43,29 @@ class App extends Component {
   }
 
   initMap = () => {
+    let markers = [];
     const myCity = { lat: 30.06263, lng: 31.24967 };
-    const map = new window.google.maps.Map(document.getElementById('map'), {
-      center: myCity,
-      zoom: 12
+    this.setState({
+      map: new window.google.maps.Map(document.getElementById('map'), {
+        center: myCity,
+        zoom: 12
+      })
     });
-
-
-
     const infowindow = new window.google.maps.InfoWindow();
-
     this.state.venues.map(ele => {
       const content = `${ele.venue.location.address}`
       const marker = new window.google.maps.Marker({
         position: { lat: ele.venue.location.lat, lng: ele.venue.location.lng },
-        map: map,
+        map: this.state.map,
         title: ele.venue.name
-      });
-      marker.addListener('click', function () {
-        infowindow.setContent(content);
-        infowindow.open(map, marker);
       })
+      // marker.addListener('click', function () {
+      //   infowindow.setContent(content);
+      //   infowindow.open(map, marker);
+      // })
+      markers.push(marker)
     })
+    this.setState({ markers: markers })
   }
   openCloseSideBar = () => {
     let sideBar = document.getElementsByClassName('side-bar');
@@ -71,11 +74,23 @@ class App extends Component {
 
   render() {
     let showingLocations;
+    let placeName;
     if (this.state.query) {
       const match = new RegExp(escapeRegExp(this.state.query), 'i');
       showingLocations = this.state.venues.filter(ele => match.test(ele.venue.name));
+      placeName = showingLocations.map(place => place.venue.name)
+      this.state.markers.forEach(marker => {
+        if (placeName.includes(marker.title)) {
+          marker.setMap(this.state.map)
+        } else {
+          marker.setMap(null)
+        }
+      })
     } else {
       showingLocations = this.state.venues;
+      this.state.markers.forEach(marker => {
+        marker.setMap(this.state.map)
+      })
     }
     return (
       <div>
@@ -84,7 +99,7 @@ class App extends Component {
             <a href='#'><i className="far fa-times-circle fa-2x"></i></a>
           </div>
           <div className='side-bar-container'>
-            <input className='filter-location' 
+            <input className='filter-location'
               type='text'
               placeholder='Search locations'
               value={this.state.query}
