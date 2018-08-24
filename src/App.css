@@ -10,9 +10,12 @@ h1 {
 
 header {
   display: flex;
+  position: fixed;
   background: #1c262f;
   color: #fff;
   height: 70px;
+  z-index: 999;
+  width: 100%;
 }
 
 .title {

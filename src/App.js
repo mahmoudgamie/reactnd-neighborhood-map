@@ -10,12 +10,12 @@ class App extends Component {
     query: ''
   }
 
-  updateQuery = (query) => {
-    this.setState({ query: query.trim() })
-  }
-
   componentDidMount() {
     this.getVenues();
+  }
+
+  updateQuery = (query) => {
+    this.setState({ query: query.trim() })
   }
 
   //loading the map and passing the callback function to the global
@@ -70,13 +70,12 @@ class App extends Component {
   }
 
   render() {
-    const { query, venues } = this.state;
     let showingLocations;
-    if (query) {
-      const match = new RegExp(escapeRegExp(query), 'i');
-      showingLocations = venues.filter(ele => match.test(ele.venue.name));
+    if (this.state.query) {
+      const match = new RegExp(escapeRegExp(this.state.query), 'i');
+      showingLocations = this.state.venues.filter(ele => match.test(ele.venue.name));
     } else {
-      showingLocations = venues;
+      showingLocations = this.state.venues;
     }
     return (
       <div>
@@ -85,15 +84,14 @@ class App extends Component {
             <a href='#'><i className="far fa-times-circle fa-2x"></i></a>
           </div>
           <div className='side-bar-container'>
-            <input 
-              className='filter-location' 
+            <input className='filter-location' 
               type='text'
               placeholder='Search locations'
-              value={query}
+              value={this.state.query}
               onChange={(event) => { this.updateQuery(event.target.value) }} />
             <ul className='list-menu'>
               {showingLocations.map(ele => (
-                <li className='list-item'>
+                <li key={ele.venue.id} className='list-item'>
                   <a href='a'>{ele.venue.name}</a>
                 </li>
               ))}
@@ -117,7 +115,6 @@ class App extends Component {
     );
   }
 }
-
 //loading the google map api script in the React Dom
 function loadScript(url) {
   const firstScriptTag = document.getElementsByTagName('script')[0];
