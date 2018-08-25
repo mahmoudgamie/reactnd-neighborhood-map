@@ -76,10 +76,14 @@ class App extends Component {
   }
 
   openInfoWindow = (venue) => {
+    //clearing all previous animation for markers
+    this.state.markers.forEach(marker => marker.setAnimation(null));
+    //setting infowindow and animoation for clicked item
     this.state.markers.forEach(marker => {
       if(marker.title === venue.name) {
         this.state.infowindow.open(this.state.map, marker);
         this.state.infowindow.setContent(venue.location.address);
+        marker.setAnimation(window.google.maps.Animation.BOUNCE);
       }
     })
   }
@@ -119,7 +123,7 @@ class App extends Component {
             <ul className='list-menu'>
               {showingLocations.map(ele => (
                 <li key={ele.venue.id} className='list-item'>
-                  <a onClick={() => this.openInfoWindow(ele.venue)}>{ele.venue.name}</a>
+                  <a onClick={ () => this.openInfoWindow(ele.venue) }>{ele.venue.name}</a>
                 </li>
               ))}
             </ul>
