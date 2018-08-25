@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios';
-import escapeRegExp from 'escape-string-regexp';
+import Menu from './Menu';
 
 class App extends Component {
 
   state = {
     venues: [],
-    query: '',
     markers: [],
     map: {},
     infowindow: {}
@@ -21,10 +20,6 @@ class App extends Component {
         this.openCloseSideBar();
       }
     })
-  }
-
-  updateQuery = (query) => {
-    this.setState({ query: query.trim() })
   }
 
   //loading the map and passing the callback function to the global
@@ -82,62 +77,15 @@ class App extends Component {
     sideBar[0].classList.toggle('open');
   }
 
-  openInfoWindowAndAnimate = (venue) => {
-    // this.state.markers.forEach(marker => marker.setAnimation(null));
-
-    //setting infowindow and animoation for clicked item
-    this.state.markers.forEach(marker => {
-      if (marker.title === venue.name) {
-        this.state.infowindow.open(this.state.map, marker);
-        this.state.infowindow.setContent(venue.location.address);
-        marker.setAnimation(window.google.maps.Animation.Zn);
-      }
-    })
-  }
-
   render() {
-    let showingLocations;
-    let placeName;
-    if (this.state.query) {
-      const match = new RegExp(escapeRegExp(this.state.query), 'i');
-      showingLocations = this.state.venues.filter(ele => match.test(ele.venue.name));
-      placeName = showingLocations.map(place => place.venue.name)
-      this.state.markers.forEach(marker => {
-        if (placeName.includes(marker.title)) {
-          marker.setMap(this.state.map)
-        } else {
-          marker.setMap(null)
-        }
-      })
-    } else {
-      showingLocations = this.state.venues;
-      this.state.markers.forEach(marker => {
-        marker.setMap(this.state.map)
-      })
-    }
     return (
       <div className='main'>
-        <div className='side-bar'>
-          <h3>Cairo Shops</h3>
-          <div className='side-bar-container'>
-            <input className='filter-location'
-              type='text'
-              placeholder='Search locations'
-              value={this.state.query}
-              onChange={(event) => { this.updateQuery(event.target.value) }} />
-            <ul className='list-menu'>
-              {showingLocations.map(ele => (
-                <li
-                  key={ele.venue.id}
-                  className='list-item'
-                  role='button'
-                  tabIndex='0'
-                  onClick={() => this.openInfoWindowAndAnimate(ele.venue)}>{ele.venue.name}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+        <Menu
+          venues={this.state.venues}
+          markers={this.state.markers}
+          map={this.state.map}
+          infowindow={this.state.infowindow}>
+        </Menu>
         <header className='header'>
           <div
             className='icon'
@@ -160,7 +108,6 @@ class App extends Component {
 }
 
 //loading the google map api script in the React Dom
-
 function googleError() {
   alert('Error: can not load map')
 }

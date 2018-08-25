@@ -28,6 +28,8 @@ The application is build using React framework, and uses the create-react-app bo
 2- Places-list shown on a side-menu with filtering criteria
 3- Animated markers
 4- Application is responsive, and works across different devices
+5- Application is available offline in producion mode, not in development mode, to run the production mode, run the below command:
+`npm run build`
 
 ## Functions
 
