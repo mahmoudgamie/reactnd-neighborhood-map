@@ -48,7 +48,7 @@ class App extends Component {
     const myCity = { lat: 30.06263, lng: 31.24967 };
     const map = new window.google.maps.Map(document.getElementById('map'), {
       center: myCity,
-      zoom: 12
+      zoom: 14
     })
     const infowindow = new window.google.maps.InfoWindow();
     this.state.venues.map(ele => {
@@ -58,6 +58,7 @@ class App extends Component {
         map: map,
         title: ele.venue.name
       })
+      marker.setAnimation(window.google.maps.Animation.DROP);
       markers.push(marker)
       marker.addListener('click', function () {
         infowindow.setContent(content);
@@ -75,17 +76,15 @@ class App extends Component {
     sideBar[0].classList.toggle('open');
   }
 
-  openInfoWindow = (venue) => {
-    //clearing all previous animation for markers
-    this.state.markers.forEach(marker => marker.setAnimation(null));
+  openInfoWindowAndAnimate = (venue) => {
+    // this.state.markers.forEach(marker => marker.setAnimation(null));
+
     //setting infowindow and animoation for clicked item
     this.state.markers.forEach(marker => {
-      if(marker.title === venue.name) {
+      if (marker.title === venue.name) {
         this.state.infowindow.open(this.state.map, marker);
         this.state.infowindow.setContent(venue.location.address);
         marker.setAnimation(window.google.maps.Animation.Zn);
-        console.log(window.google.maps.Animation);
-        
       }
     })
   }
@@ -111,8 +110,9 @@ class App extends Component {
       })
     }
     return (
-      <div>
+      <div className='main'>
         <div className='side-bar'>
+        <h3>Cairo Shops</h3>
           <div className='close-icon'>
             <a onClick={this.openCloseSideBar}><i className="far fa-times-circle fa-2x"></i></a>
           </div>
@@ -125,7 +125,7 @@ class App extends Component {
             <ul className='list-menu'>
               {showingLocations.map(ele => (
                 <li key={ele.venue.id} className='list-item'>
-                  <a onClick={ () => this.openInfoWindow(ele.venue) }>{ele.venue.name}</a>
+                  <a onClick={() => this.openInfoWindowAndAnimate(ele.venue)}>{ele.venue.name}</a>
                 </li>
               ))}
             </ul>
@@ -141,7 +141,6 @@ class App extends Component {
           </div>
         </header>
         <main>
-
           <div id='map'></div>
         </main>
       </div>
@@ -149,7 +148,7 @@ class App extends Component {
   }
 }
 //loading the google map api script in the React Dom
-function  (url) {
+function loadScript (url) {
   const firstScriptTag = document.getElementsByTagName('script')[0];
   const mapScript = document.createElement('script');
   mapScript.src = url;
