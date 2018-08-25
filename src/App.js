@@ -153,14 +153,23 @@ class App extends Component {
     );
   }
 }
+
 //loading the google map api script in the React Dom
+
+function googleError() {
+  alert('Error: can not load map')
+}
+
 function loadScript(url) {
   const firstScriptTag = document.getElementsByTagName('script')[0];
   const mapScript = document.createElement('script');
   mapScript.src = url;
   mapScript.async = true;
   mapScript.defer = true;
+  mapScript.onerror = googleError
   firstScriptTag.parentNode.insertBefore(mapScript, firstScriptTag);
+  console.log(mapScript);
+  
 }
 
 export default App;
