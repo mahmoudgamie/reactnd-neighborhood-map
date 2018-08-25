@@ -15,6 +15,12 @@ class App extends Component {
 
   componentDidMount() {
     this.getVenues();
+    const hamburgerIcon = document.querySelector('.icon');
+    hamburgerIcon.addEventListener('keypress', event => {
+      if (event.keyCode === 32 || event.keyCode === 13) {
+        this.openCloseSideBar();
+      }
+    })
   }
 
   updateQuery = (query) => {
@@ -125,9 +131,8 @@ class App extends Component {
                   key={ele.venue.id}
                   className='list-item'
                   role='button'
-                  tabIndex= '0'
+                  tabIndex='0'
                   onClick={() => this.openInfoWindowAndAnimate(ele.venue)}>{ele.venue.name}
-
                 </li>
               ))}
             </ul>
@@ -145,7 +150,7 @@ class App extends Component {
             <h1>Cairo</h1>
           </div>
         </header>
-        <div id='map'></div>
+        <div id='map' aria-label='map'></div>
         <footer>
           <span>Designed by Mahmoud Gamie</span>
         </footer>
@@ -169,7 +174,7 @@ function loadScript(url) {
   mapScript.onerror = googleError
   firstScriptTag.parentNode.insertBefore(mapScript, firstScriptTag);
   console.log(mapScript);
-  
+
 }
 
 export default App;
