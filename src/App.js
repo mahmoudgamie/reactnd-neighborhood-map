@@ -121,17 +121,25 @@ class App extends Component {
               onChange={(event) => { this.updateQuery(event.target.value) }} />
             <ul className='list-menu'>
               {showingLocations.map(ele => (
-                <li key={ele.venue.id} className='list-item'>
-                  <a onClick={() => this.openInfoWindowAndAnimate(ele.venue)}>{ele.venue.name}</a>
+                <li
+                  key={ele.venue.id}
+                  className='list-item'
+                  role='button'
+                  tabIndex= '0'
+                  onClick={() => this.openInfoWindowAndAnimate(ele.venue)}>{ele.venue.name}
+
                 </li>
               ))}
             </ul>
           </div>
         </div>
         <header className='header'>
-
-          <div className='icon'>
-            <a onClick={this.openCloseSideBar}><i className="fas fa-bars fa-2x"></i></a>
+          <div
+            className='icon'
+            aria-label='hamburger-menu'
+            tabIndex='0'
+            onClick={this.openCloseSideBar}>
+            <i className="fas fa-bars fa-2x"></i>
           </div>
           <div className='title'>
             <h1>Cairo</h1>
@@ -139,7 +147,7 @@ class App extends Component {
         </header>
         <div id='map'></div>
         <footer>
-          sdas
+          <span>Designed by Mahmoud Gamie</span>
         </footer>
       </div>
     );
