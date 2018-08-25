@@ -9,7 +9,8 @@ class App extends Component {
     venues: [],
     query: '',
     markers: [],
-    map: {}
+    map: {},
+    infowindow: {}
   }
 
   componentDidMount() {
@@ -45,31 +46,42 @@ class App extends Component {
   initMap = () => {
     let markers = [];
     const myCity = { lat: 30.06263, lng: 31.24967 };
-    this.setState({
-      map: new window.google.maps.Map(document.getElementById('map'), {
-        center: myCity,
-        zoom: 12
-      })
-    });
+    const map = new window.google.maps.Map(document.getElementById('map'), {
+      center: myCity,
+      zoom: 12
+    })
     const infowindow = new window.google.maps.InfoWindow();
     this.state.venues.map(ele => {
       const content = `${ele.venue.location.address}`
       const marker = new window.google.maps.Marker({
         position: { lat: ele.venue.location.lat, lng: ele.venue.location.lng },
-        map: this.state.map,
+        map: map,
         title: ele.venue.name
       })
-      // marker.addListener('click', function () {
-      //   infowindow.setContent(content);
-      //   infowindow.open(map, marker);
-      // })
       markers.push(marker)
+      marker.addListener('click', function () {
+        infowindow.setContent(content);
+        infowindow.open(map, marker);
+      })
     })
-    this.setState({ markers: markers })
+    this.setState({
+      markers: markers,
+      map: map,
+      infowindow: infowindow
+    })
   }
   openCloseSideBar = () => {
     let sideBar = document.getElementsByClassName('side-bar');
     sideBar[0].classList.toggle('open');
+  }
+
+  openInfoWindow = (venue) => {
+    this.state.markers.forEach(marker => {
+      if(marker.title === venue.name) {
+        this.state.infowindow.open(this.state.map, marker);
+        this.state.infowindow.setContent(venue.location.address);
+      }
+    })
   }
 
   render() {
@@ -95,8 +107,8 @@ class App extends Component {
     return (
       <div>
         <div className='side-bar'>
-          <div className='close-icon' onClick={this.openCloseSideBar}>
-            <a href='#'><i className="far fa-times-circle fa-2x"></i></a>
+          <div className='close-icon'>
+            <a onClick={this.openCloseSideBar}><i className="far fa-times-circle fa-2x"></i></a>
           </div>
           <div className='side-bar-container'>
             <input className='filter-location'
@@ -107,7 +119,7 @@ class App extends Component {
             <ul className='list-menu'>
               {showingLocations.map(ele => (
                 <li key={ele.venue.id} className='list-item'>
-                  <a href='a'>{ele.venue.name}</a>
+                  <a onClick={() => this.openInfoWindow(ele.venue)}>{ele.venue.name}</a>
                 </li>
               ))}
             </ul>
@@ -115,8 +127,8 @@ class App extends Component {
         </div>
         <header className='header'>
 
-          <div className='icon' onClick={this.openCloseSideBar}>
-            <a href='#'><i className="fas fa-bars fa-2x"></i></a>
+          <div className='icon'>
+            <a onClick={this.openCloseSideBar}><i className="fas fa-bars fa-2x"></i></a>
           </div>
           <div className='title'>
             <h1>Cairo</h1>
