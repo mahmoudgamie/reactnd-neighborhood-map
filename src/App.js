@@ -112,10 +112,7 @@ class App extends Component {
     return (
       <div className='main'>
         <div className='side-bar'>
-        <h3>Cairo Shops</h3>
-          <div className='close-icon'>
-            <a onClick={this.openCloseSideBar}><i className="far fa-times-circle fa-2x"></i></a>
-          </div>
+          <h3>Cairo Shops</h3>
           <div className='side-bar-container'>
             <input className='filter-location'
               type='text'
@@ -140,15 +137,16 @@ class App extends Component {
             <h1>Cairo</h1>
           </div>
         </header>
-        <main>
-          <div id='map'></div>
-        </main>
+        <div id='map'></div>
+        <footer>
+          sdas
+        </footer>
       </div>
     );
   }
 }
 //loading the google map api script in the React Dom
-function loadScript (url) {
+function loadScript(url) {
   const firstScriptTag = document.getElementsByTagName('script')[0];
   const mapScript = document.createElement('script');
   mapScript.src = url;
