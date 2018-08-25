@@ -40,7 +40,7 @@ class App extends Component {
     };
     axios.get(url + new URLSearchParams(parameters))
       .then(response => this.setState({ venues: response.data.response.groups[0].items }, this.loadMap()))
-      .catch(error => console.log('Error: ' + error));
+      .catch(error => alert('Error: unable to retrieve data from third party API'));
   }
 
   initMap = () => {
@@ -83,7 +83,9 @@ class App extends Component {
       if(marker.title === venue.name) {
         this.state.infowindow.open(this.state.map, marker);
         this.state.infowindow.setContent(venue.location.address);
-        marker.setAnimation(window.google.maps.Animation.BOUNCE);
+        marker.setAnimation(window.google.maps.Animation.Zn);
+        console.log(window.google.maps.Animation);
+        
       }
     })
   }
@@ -147,7 +149,7 @@ class App extends Component {
   }
 }
 //loading the google map api script in the React Dom
-function loadScript(url) {
+function  (url) {
   const firstScriptTag = document.getElementsByTagName('script')[0];
   const mapScript = document.createElement('script');
   mapScript.src = url;
