@@ -76,7 +76,7 @@ class App extends Component {
     let sideBar = document.getElementsByClassName('side-bar');
     const filterLocation = document.querySelector('.filter-location');
     sideBar[0].classList.toggle('open');
-    if(sideBar[0].classList.contains('open')){
+    if (sideBar[0].classList.contains('open')) {
       filterLocation.focus();
     }
   }
@@ -85,7 +85,7 @@ class App extends Component {
     console.log(document.activeElement);
 
     return (
-      <div className='main'>
+      <div className='main' role="main">
         <Menu
           venues={this.state.venues}
           markers={this.state.markers}
@@ -105,7 +105,7 @@ class App extends Component {
             <h1>Cairo</h1>
           </div>
         </header>
-        <div id='map' aria-label='map'></div>
+        <div id='map' role='application' aria-label='map'></div>
         <footer>
           <span>Powered by Foursquare</span>
           <span>Designed by Mahmoud Gamie</span>

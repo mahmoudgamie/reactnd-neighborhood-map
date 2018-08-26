@@ -12,8 +12,6 @@ class Menu extends Component {
   }
 
   openInfoWindowAndAnimate = (venue) => {
-    // this.state.markers.forEach(marker => marker.setAnimation(null));
-
     //setting infowindow and animoation for clicked item
     this.props.markers.forEach(marker => {
       if (marker.title === venue.name) {
@@ -50,7 +48,8 @@ class Menu extends Component {
         <div className='side-bar-container'>
           <input
             className='filter-location'
-            role='search locations'
+            role='textbox'
+            aria-label='search locations'
             type='text'
             placeholder='Search locations'
             value={this.state.query}
