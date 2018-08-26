@@ -45,10 +45,12 @@ class Menu extends Component {
       })
     }
     return (
-      <div className='side-bar'>
+      <div className='side-bar' >
         <h3>Cairo Shops</h3>
         <div className='side-bar-container'>
-          <input className='filter-location'
+          <input
+            className='filter-location'
+            role='search locations'
             type='text'
             placeholder='Search locations'
             value={this.state.query}

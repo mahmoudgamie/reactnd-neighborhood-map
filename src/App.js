@@ -74,10 +74,16 @@ class App extends Component {
   }
   openCloseSideBar = () => {
     let sideBar = document.getElementsByClassName('side-bar');
+    const filterLocation = document.querySelector('.filter-location');
     sideBar[0].classList.toggle('open');
+    if(sideBar[0].classList.contains('open')){
+      filterLocation.focus();
+    }
   }
 
   render() {
+    console.log(document.activeElement);
+
     return (
       <div className='main'>
         <Menu
@@ -89,7 +95,8 @@ class App extends Component {
         <header className='header'>
           <div
             className='icon'
-            aria-label='hamburger-menu'
+            aria-label='open side menu'
+            role='button'
             tabIndex='0'
             onClick={this.openCloseSideBar}>
             <i className="fas fa-bars fa-2x"></i>
@@ -100,6 +107,7 @@ class App extends Component {
         </header>
         <div id='map' aria-label='map'></div>
         <footer>
+          <span>Powered by Foursquare</span>
           <span>Designed by Mahmoud Gamie</span>
         </footer>
       </div>
